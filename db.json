@@ -1,11 +1,25 @@
 {
   "products": [
     {
-      "title": "sad",
+      "title": "RRR",
       "price": 852,
       "description": "fsd",
       "image": "https://lirp.cdn-website.com/cc407b53/dms3rep/multi/opt/website-header-post-1060x768-min-1920w.png",
       "id": 2
+    },
+    {
+      "title": "FFF",
+      "price": 9000,
+      "description": "KKK",
+      "image": "https://www.collinsdictionary.com/images/full/california_439256962_1000.jpg",
+      "id": 4
+    },
+    {
+      "title": "asdf",
+      "price": 852,
+      "description": "sdf",
+      "image": "sadfasdf",
+      "id": 5
     }
   ]
 }

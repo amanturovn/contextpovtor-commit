@@ -8,11 +8,17 @@ export const productsContext = React.createContext();
 const INIT_STATE = {
   products: [],
   oneProduct: null,
+  pages: 0,
 };
 function reduser(state = INIT_STATE, action) {
   switch (action.type) {
     case "GET_PRODUCTS":
-      return { ...state, products: action.payload };
+      return {
+        ...state,
+        products: action.payload.data,
+        pages: Math.ceil(action.payload.headers["x-total-count"] / 2),
+      }; // добавили data для count pages/ колочество страниц
+
     case "GET_ONE":
       return { ...state, oneProduct: action.payload };
     default:
@@ -25,7 +31,7 @@ const PRODUCTS_API = "http://localhost:8000/products";
 const ProductsContextProvider = ({ children }) => {
   //! creat
   const [state, dispatch] = useReducer(reduser, INIT_STATE);
-
+  // console.log(state);
   async function createProduct(newProduct) {
     await axios.post(PRODUCTS_API, newProduct);
     getProducts();
@@ -33,10 +39,12 @@ const ProductsContextProvider = ({ children }) => {
 
   //! read
   async function getProducts() {
-    let res = await axios(PRODUCTS_API);
+    let res = await axios(`${PRODUCTS_API}${window.location.search}`);
+    // console.log(res.headers["x-total-count"] / 2);
+    // console.log(Math.ceil(res.headers["x-total-count"] / 2));
     dispatch({
       type: "GET_PRODUCTS",
-      payload: res.data,
+      payload: res,
     });
   }
 
@@ -45,7 +53,7 @@ const ProductsContextProvider = ({ children }) => {
     getProducts();
   }
 
-  //! details
+  //! details, get for edit
 
   async function getOneProduct(id) {
     const res = await axios(`${PRODUCTS_API}/${id}`);
@@ -56,15 +64,24 @@ const ProductsContextProvider = ({ children }) => {
     });
   }
 
+  //! UPDATE
+
+  async function updateProduct(id, editedProduct) {
+    await axios.patch(`${PRODUCTS_API}/${id}`, editedProduct);
+    getProducts();
+  }
+
   return (
     <productsContext.Provider
       value={{
         products: state.products,
         oneProduct: state.oneProduct,
+        pages: state.pages,
         createProduct,
         getProducts,
         deleteProduct,
         getOneProduct,
+        updateProduct,
       }}>
       {children}
     </productsContext.Provider>

@@ -6,10 +6,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { productsContext } from "../../contexts/productsContext";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import { cartContext } from "../../contexts/CartContext";
 
 export default function ProductCard({ item }) {
   const { deleteProduct } = React.useContext(productsContext);
+  const { addToCart } = React.useContext(cartContext);
   const navigate = useNavigate();
   return (
     <Card sx={{ maxWidth: 345, margin: "10px" }}>
@@ -31,10 +35,15 @@ export default function ProductCard({ item }) {
         <Button onClick={() => deleteProduct(item.id)} size="small">
           Delete
         </Button>
-        <Button size="small">Edit</Button>
+        <Button onClick={() => navigate(`/edit/${item.id}`)} size="small">
+          Edit
+        </Button>
         <Button onClick={() => navigate(`/details/${item.id}`)} size="small">
           Details
         </Button>
+        <IconButton onClick={() => addToCart(item)}>
+          <AddShoppingCartIcon color="primary" />
+        </IconButton>
       </CardActions>
     </Card>
   );
