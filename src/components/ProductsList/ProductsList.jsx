@@ -16,9 +16,9 @@ const ProductsList = () => {
 
   const [price, setPrice] = useState([1, 100000]);
   // console.log(currentPage);
-  useEffect(() => {
-    getProducts();
-  }, []);
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
   // console.log(products);
   useEffect(() => {
     setSearchParams({

@@ -10,7 +10,7 @@ const INIT_STATE = {
   oneProduct: null,
   pages: 0,
 };
-function reduser(state = INIT_STATE, action) {
+function reducer(state = INIT_STATE, action) {
   switch (action.type) {
     case "GET_PRODUCTS":
       return {
@@ -30,7 +30,7 @@ const PRODUCTS_API = "http://localhost:8000/products";
 
 const ProductsContextProvider = ({ children }) => {
   //! creat
-  const [state, dispatch] = useReducer(reduser, INIT_STATE);
+  const [state, dispatch] = useReducer(reducer, INIT_STATE);
   // console.log(state);
   async function createProduct(newProduct) {
     await axios.post(PRODUCTS_API, newProduct);
